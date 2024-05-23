@@ -2,286 +2,73 @@ import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ProductsService } from '../services/products.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClientModule  } from '@angular/common/http';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-informe',
   standalone: true,
-  imports: [TableModule, ButtonModule],
+  imports: [TableModule, ButtonModule, HttpClientModule, IconFieldModule, InputIconModule, CommonModule ],
   templateUrl: './informe.component.html',
   styleUrl: './informe.component.scss',
   providers: [ProductsService]
 })
 export class InformeComponent implements OnInit{
 
+  //array para guardar los productos
+  products: any[]=[];
+  
+
+  //declaro en el constructor el servicio para utilizar sus metodos
+  //para usarlo tambien hay que importar aqui el httpclient
   constructor(public productService: ProductsService){
 
   }
-  products = [
-    {
-      "code": 0,
-      "name": "IphoneX",
-      "category": "Telefono",
-      "quantity": 6,
-      "date": "2024-05-23",
-      "price": 999
-    },
-    {
-      "code": 1,
-      "name": "Galaxy S21",
-      "category": "Telefono",
-      "quantity": 10,
-      "date": "2024-05-23",
-      "price": 799
-    },
-    {
-      "code": 2,
-      "name": "Pixel 5",
-      "category": "Telefono",
-      "quantity": 8,
-      "date": "2022-05-23",
-      "price": 699
-    },
-    {
-      "code": 3,
-      "name": "OnePlus 9",
-      "category": "Telefono",
-      "quantity": 5,
-      "date": "2024-08-23",
-      "price": 729
-    },
-    {
-      "code": 4,
-      "name": "Xiaomi Mi 11",
-      "category": "Telefono",
-      "quantity": 12,
-      "date": "2021-05-2",
-      "price": 749
-    },
-    {
-      "code": 5,
-      "name": "Oppo Find X3",
-      "category": "Telefono",
-      "quantity": 7,
-      "date": "2024-05-23",
-      "price": 899
-    },
-    {
-      "code": 6,
-      "name": "Huawei P40",
-      "category": "Telefono",
-      "quantity": 9,
-      "date": "2024-05-23",
-      "price": 649
-    },
-    {
-      "code": 7,
-      "name": "Sony Xperia 1",
-      "category": "Telefono",
-      "quantity": 4,
-      "date": "2020-09-10",
-      "price": 999
-    },
-    {
-      "code": 8,
-      "name": "Nokia 8.3",
-      "category": "Telefono",
-      "quantity": 11,
-      "date": "2024-05-23",
-      "price": 599
-    },
-    {
-      "code": 9,
-      "name": "LG Velvet",
-      "category": "Telefono",
-      "quantity": 3,
-      "date": "2024-05-23",
-      "price": 599
-    },
-    {
-      "code": 10,
-      "name": "Motorola Edge",
-      "category": "Telefono",
-      "quantity": 6,
-      "date": "2018-01-23",
-      "price": 699
-    },
-    {
-      "code": 11,
-      "name": "iPad Pro",
-      "category": "Tablet",
-      "quantity": 15,
-      "date": "2024-05-23",
-      "price": 1099
-    },
-    {
-      "code": 12,
-      "name": "Galaxy Tab S7",
-      "category": "Tablet",
-      "quantity": 10,
-      "date": "2019-06-18",
-      "price": 649
-    },
-    {
-      "code": 13,
-      "name": "Surface Pro 7",
-      "category": "Tablet",
-      "quantity": 8,
-      "date": "2024-05-23",
-      "price": 899
-    },
-    {
-      "code": 14,
-      "name": "Lenovo Tab P11",
-      "category": "Tablet",
-      "quantity": 12,
-      "date": "2021-11-20",
-      "price": 249
-    },
-    {
-      "code": 15,
-      "name": "Xiaomi Pad 5",
-      "category": "Tablet",
-      "quantity": 9,
-      "date": "2024-05-23",
-      "price": 399
-    },
-    {
-      "code": 16,
-      "name": "Huawei MatePad Pro",
-      "category": "Tablet",
-      "quantity": 11,
-      "date": "2016-05-23",
-      "price": 749
-    },
-    {
-      "code": 17,
-      "name": "Amazon Fire HD 10",
-      "category": "Tablet",
-      "quantity": 14,
-      "date": "2017-07-2",
-      "price": 149
-    },
-    {
-      "code": 18,
-      "name": "Samsung Galaxy Tab A",
-      "category": "Tablet",
-      "quantity": 13,
-      "date": "2024-05-23",
-      "price": 229
-    },
-    {
-      "code": 19,
-      "name": "Asus ZenPad 3S",
-      "category": "Tablet",
-      "quantity": 6,
-      "date": "2024-05-23",
-      "price": 299
-    },
-    {
-      "code": 20,
-      "name": "Lenovo Yoga Smart Tab",
-      "category": "Tablet",
-      "quantity": 7,
-      "date": "2009-03-18",
-      "price": 349
-    },
-    {
-      "code": 21,
-      "name": "MacBook Pro",
-      "category": "Portatil",
-      "quantity": 5,
-      "date": "2024-05-23",
-      "price": 1299
-    },
-    {
-      "code": 22,
-      "name": "Dell XPS 13",
-      "category": "Portatil",
-      "quantity": 8,
-      "date": "2024-05-23",
-      "price": 999
-    },
-    {
-      "code": 23,
-      "name": "HP Spectre x360",
-      "category": "Portatil",
-      "quantity": 7,
-      "date": "2024-05-23",
-      "price": 1199
-    },
-    {
-      "code": 24,
-      "name": "Lenovo ThinkPad X1 Carbon",
-      "category": "Portatil",
-      "quantity": 6,
-      "date": "2024-05-23",
-      "price": 1399
-    },
-    {
-      "code": 25,
-      "name": "Asus ROG Zephyrus G14",
-      "category": "Portatil",
-      "quantity": 4,
-      "date": "2024-05-23",
-      "price": 1499
-    },
-    {
-      "code": 26,
-      "name": "Microsoft Surface Laptop 4",
-      "category": "Portatil",
-      "quantity": 9,
-      "date": "2024-05-23",
-      "price": 1299
-    },
-    {
-      "code": 27,
-      "name": "Acer Swift 3",
-      "category": "Portatil",
-      "quantity": 10,
-      "date": "2024-05-23",
-      "price": 699
-    },
-    {
-      "code": 28,
-      "name": "Razer Blade 15",
-      "category": "Portatil",
-      "quantity": 3,
-      "date": "2024-05-23",
-      "price": 1799
-    },
-    {
-      "code": 29,
-      "name": "Apple MacBook Air",
-      "category": "Portatil",
-      "quantity": 12,
-      "date": "2024-05-23",
-      "price": 999
-    },
-    {
-      "code": 30,
-      "name": "Dell Inspiron 15",
-      "category": "Portatil",
-      "quantity": 11,
-      "date": "2024-05-23",
-      "price": 649
-    }
-  ];
-
+  
+  //cuando inicia el componente carga el metodo showproducts
   ngOnInit(){
     this.showProducts();
   }
 
+  //este metodo se utiliza el servicio para realizar la peticion http hacia donde esta el archivo json con los productos a mostrar
   showProducts(){
-    console.log('ok');
+    //console.log('ok');
+    this.products = [];
     this.productService.getProducts().subscribe((products)=>{
-      console.log(products);
-    })
+      next: {
+        this.products = products;
+      }
+      error: (err: Error)=>{
+        console.log(err);
+      }
+      
+    });
   }
   
+  //vacio el array y hago que refresque los productos
   reset(){
-    this.products = this.products;
-    console.log(this.products);
+    console.log('refresh');
+    this.productService.getProducts().subscribe((products)=>{
+      next: {
+        this.products = products;
+      }
+      error: (err: Error)=>{
+        console.log(err);
+      }
+      
+    });
+  }
+
+  exportCSV() {
+    // if (this.products && Array.isArray(this.products)) {
+    //   const filteredProducts = this.products.filter(product => product.quantity > 0);
+    //   console.log('filteredProducts:', filteredProducts);
+    //   // Lógica para exportar a CSV
+    // } else {
+    //   console.error('products no está definido o no es un array');
+    // }
   }
 
 }

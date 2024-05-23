@@ -1,26 +1,61 @@
 <h1>Informe</h1>
-<div class="mb-3" style="text-align: right;">
+<!-- <div class="mb-3" style="text-align: right;">
     <p-button 
         type="button" 
         icon="pi pi-refresh" 
         (click)="reset()" 
         styleClass="p-button-text" />
-</div>
+</div> -->
 <p-table 
-    #dt 
+    #dt2 
     [value]="products" 
     sortField="price" 
     [sortOrder]="-1" 
     [exportHeader]="'customExportHeader'" 
-    [tableStyle]="{ 'min-width': '50rem' }">
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [paginator]="true"
+    [rows]="8"
+
+    [globalFilterFields]="['name', 'category']"
+    >
     <!-- <ng-template pTemplate="caption">
         <div style="text-align: left">
             <p-button 
                 icon="pi pi-external-link" 
                 label="Export" 
-                (click)="dt.exportCSV()" />
+                (click)="dt2.exportCSV()" />
         </div>
     </ng-template> -->
+    <!-- <ng-template pTemplate="caption">
+        <div class="flex">
+            <p-iconField iconPosition="left" class="ml-auto">
+                <p-inputIcon>
+                    <i class="pi pi-search"></i>
+                </p-inputIcon>
+                <input 
+                    pInputText 
+                    type="text" 
+                    (input)="dt2.filterGlobal($any($event.target).value, 'contains')" 
+                    placeholder="Search keyword" />
+            </p-iconField>
+        </div>
+    </ng-template> -->
+    <ng-template pTemplate="caption" >
+        <div class="flex align-items-center justify-content-between">
+            <p-iconField iconPosition="left" class="ml-auto">
+                <p-inputIcon>
+                    <i class="pi pi-search"></i>
+                </p-inputIcon>
+                <input 
+                    pInputText 
+                    type="text" 
+                    (input)="dt2.filterGlobal($any($event.target).value, 'contains')" 
+                    placeholder="Busca producto" />
+            </p-iconField>
+            <p-button icon="pi pi-refresh" (click)="reset()" />
+        </div>
+        
+    </ng-template>
     <ng-template pTemplate="header">
         <tr>
             <th pSortableColumn="code">Código <p-sortIcon field="code" /></th>
@@ -38,7 +73,16 @@
             <td>{{ product.category }}</td>
             <td>{{ product.quantity }}</td>
             <td>{{ product.price }}€</td>
-            <td>{{ product.date }}</td>
+            <td>{{ product.date | date: 'dd/MM/yyyy' }}</td>
         </tr>
     </ng-template>
 </p-table>
+
+
+
+
+
+
+
+
+

@@ -6,9 +6,11 @@ import { Observable } from 'rxjs';
 })
 export class ProductsService {
 
+  urlProducts = 'https://raw.githubusercontent.com/ismaeleamsi83/veosat/main/src/app/products.json';
+
   constructor(public http: HttpClient) { }
 
   getProducts():Observable<any>{
-    return this.http.get('https://fakestoreapi.com/products');
+    return this.http.get(this.urlProducts);
   }
 }
